@@ -21,13 +21,15 @@ class Track():
     def add_if_can(self, agent):
         self.update_full
         
-        if self.full == False:
+        if not self.full:
             self.travellers += 1
             agent.element = "Track"
-            return True
+            agent.current_track = self
+            self.update_full
+            return 
         else:
-            return False
-        self.update_full
+            return 
+        
     
     def remove(self, agent):
         self.update_full

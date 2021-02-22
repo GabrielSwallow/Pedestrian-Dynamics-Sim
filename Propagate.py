@@ -15,23 +15,17 @@ def propagate(agents, tracks, dt=0.01):
                 leftover.remove(agent)
             elif agent.element == "Node":
                 #choose a track and try and join it 
-                ideal_track = agent.node.ideal_track()
-                possible_to_move = ideal_track.add_if_can(agent)
-                if possible_to_move:
-                    agent.currenttrack = ideal_track
-                else:
-                    continue
+                ideal_track = agent.current_node.ideal_track()
+                ideal_track.add_if_can(agent)
             elif agent.element == "Track":
-                if agent.timer >= track_time(agent, agent.currenttrack):
+                if agent.timer >= track_time(agent, agent.current_track):
                     #move agent to node
                     agent.element = "Node"
                     agent.timer=0
-                    agent.currenttrack = None
+                    agent.current_track = None
                 else:
-                    agent.timer += 1
-                continue
-                
-                
+                    agent.timer += dt
+            raise Exception("oops! agent status wasn't found")
         
         t += dt
     

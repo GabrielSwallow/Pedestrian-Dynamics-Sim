@@ -1,9 +1,10 @@
 class Node():
 
-    def __init__(self, max_capacity):
+    def __init__(self, max_capacity, is_end):
         self.max_capacity = max_capacity
         self.full = False
-        self.edges_dict=dict{}
+        self.edges_dict = dict()
+        self.end = is_end
     
     def add_edge(self, track):
         self.edges_dict[track] = track.weight
