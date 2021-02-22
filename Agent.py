@@ -6,7 +6,10 @@ class Agent():
         self.current_track = None
         self.exit = False
         self.element = "Node"
-        self.timer=0
+        self.timer = 0
+
+    def __repr__(self):
+        return self.element
 
     def exit(self):
         self.exit = True
