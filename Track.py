@@ -1,10 +1,14 @@
 class Track():
 
-    def __init__(self, distance, max_capacity):
+    def __init__(self, distance, max_capacity, Node1, Node2, weight):
         self.travellers = 0
         self.distance = distance
         self.max_capacity = max_capacity
         self.full = False
+        self.weight = weight
+
+        Node1.add_edge(self)
+        Node2.add_edge(self) 
 
     def update_full(self):
         if self.travellers == self.max_capacity:
@@ -14,17 +18,21 @@ class Track():
         else:
             raise Exception("negative number of travellers - spooky")
     
-    def add_if_if_can(self, agent):
+    def add_if_can(self, agent):
         self.update_full
         
-        if self.full == True:
+        if self.full == False:
             self.travellers += 1
+            agent.element = "Track"
+            return True
         else:
             return False
+        self.update_full
     
     def remove(self, agent):
         self.update_full
         self.travellers-=1
-        if self.travellers < 0:
-            raise Exception("negative number of travellers - spooky")
+        agent.elemt = "Node"
         self.update_full
+    
+    
