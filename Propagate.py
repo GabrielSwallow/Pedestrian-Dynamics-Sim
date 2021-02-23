@@ -25,7 +25,8 @@ def propagate(agents, tracks, dt=0.01):
                     agent.current_track = None
                 else:
                     agent.timer += dt
-            raise Exception("oops! agent status wasn't found")
+            else:
+                raise Exception("oops! agent status wasn't found")
         
         t += dt
     

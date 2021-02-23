@@ -30,7 +30,6 @@ class Track():
         else:
             return 
         
-    
     def remove(self, agent):
         self.update_full
         self.travellers-=1
