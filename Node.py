@@ -6,6 +6,9 @@ class Node():
         self.edges_dict = dict()
         self.end = is_end
 
+    def __repr__(self):
+        return self, "\n", "Max Capacity", self.max_capacity, "\n", "is Full?", self.full, "\n", "Edges:", self.edges_dict, "\n", "is End?", self.end
+
     def add_edge(self, track):
         self.edges_dict[track] = track.weight
 

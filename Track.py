@@ -12,6 +12,9 @@ class Track():
         Node1.add_edge(self)
         Node2.add_edge(self)
 
+    def __repr__(self):
+        return self, "\n", "distance:", self.distance, "\n", "Max Capacity:", self.max_capacity, "\n", "Start Node:", self.start_node, "\n", "End Node:", self.end_node, "\n", "Weight", self.weight
+
     def update_full(self):
         if self.travellers == self.max_capacity:
             self.full = False
