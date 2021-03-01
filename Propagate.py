@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from celluloid import Camera
 from matplotlib.animation import PillowWriter
 
+from Track import Track
+
 directory = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -24,16 +26,15 @@ def plot_frame(tracks):
         # y.append(track.start_node.pos[1])
         # y.append(track.end_node.pos[1])
         x = [track.start_node.pos[0], track.end_node.pos[0]]
-        y = [track.start_node.pos[1], track.end_node.pos[1]]   
-        plt.plot(x,y, "-o", linewidth = 5 + 5*track.travellers, color="b")
-        plt.plot(x[0], y[0], "o", ms=5 + 10*track.travellers, color="b")
-        plt.plot(x[1], y[1], "o", ms=5 + 10*track.travellers, color="b")
-
+        y = [track.start_node.pos[1], track.end_node.pos[1]]
+        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers, color="b")
+        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.travellers, color="b")
+        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.travellers, color="b")
 
 
 def propagate(agents, tracks, dt=0.01):
-    #initial frame
-    #for i in range(10):
+    # initial frame
+    # for i in range(10):
     end_node_counter = 0
     for track in tracks:
         if track.end_node.end:
@@ -61,19 +62,22 @@ def propagate(agents, tracks, dt=0.01):
                 ideal_track.add_if_can(agent)
                 continue
             elif agent.element == 'Track':
-                if agent.timer >= track_time(agent, agent.current_track):
-                    # move agent to node
-                    agent.element = "Node"
-                    agent.current_track.travellers -= 1
-                    agent.timer = 0
-                    agent.current_node = agent.current_track.end_node
-                    if agent.current_node.end:
-                        agent.exit = True
-                    agent.current_track = None
-                    continue
+                if isinstance(agent.current_track, Track):
+                    if agent.timer >= track_time(agent, agent.current_track):
+                        # move agent to node
+                        agent.element = "Node"
+                        agent.current_track.travellers -= 1
+                        agent.timer = 0
+                        agent.current_node = agent.current_track.end_node
+                        if agent.current_node.end:
+                            agent.exit = True
+                        agent.current_track = None
+                        continue
+                    else:
+                        agent.timer += dt
+                        continue
                 else:
-                    agent.timer += dt
-                    continue
+                    raise Exception("Oops! Agent is on track but current track wasn't set to a track")
             raise Exception("oops! agent status wasn't found", agent.element)
         if count % 5 == 0:
             plot_frame(tracks)
