@@ -1,3 +1,4 @@
+"""Defines and runs simulation."""
 from Agent import Agent
 from Node import Node
 from Propagate import propagate
@@ -17,9 +18,9 @@ agent6 = Agent(speed=1, initial_node=Node1)
 agent7 = Agent(speed=1, initial_node=Node1)
 agent8 = Agent(speed=1, initial_node=Node1)
 
-track1 = Track(distance=10, max_capacity=5, Node1=Node1, Node2=Node2, weight=1)
-track2 = Track(distance=10, max_capacity=1, Node1=Node2, Node2=Node3, weight=2)
-track3 = Track(distance=10, max_capacity=3, Node1=Nodex, Node2=Node2, weight=1)
+track1 = Track(10, 5, node1=Node1, node2=Node2, weight=1, name="track1")
+track2 = Track(10, 1, node1=Node2, node2=Node3, weight=2, name="track2")
+track3 = Track(10, 3, node1=Nodex, node2=Node2, weight=1, name="track3")
 
 agents = [agent1, agent2, agent8, agent7, agent5, agent6, agent4, agent3]
 tracks = [track1, track2, track3]

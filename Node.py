@@ -1,5 +1,11 @@
+"""Defines the node class."""
+
+
 class Node():
+    """Node class."""
+
     def __init__(self, name, max_capacity, is_end, pos):
+        """Set variables for Node calss."""
         self.name = name
         self.max_capacity = max_capacity
         self.full = False
@@ -10,14 +16,16 @@ class Node():
             raise Exception("pos must be a 2D position")
 
     def __repr__(self):
+        """Return the name of the node."""
         return self.name
 
     def add_edge(self, track):
+        """Add edge to the node."""
         self.edges_dict[track] = track.weight
 
     def ideal_track(self):
+        """Calculate the ideal track."""
         return max(self.edges_dict, key=self.edges_dict.get)
 
 # class Node_Pair():
-#
-#    def __init__(self, max_capacityN1, max_capacityT1, max_capacityN2, distance):
+#     def __init__(self, max_capacityN1, max_capacityT1, max_capacityN2, dist):

@@ -1,21 +1,29 @@
-class Track():
+"""Define the Track class."""
 
-    def __init__(self, distance, max_capacity, Node1, Node2, weight):
+
+class Track():
+    """Track class."""
+
+    def __init__(self, distance, max_capacity, node1, node2, weight, name):
+        """Set the variables for the Track class."""
         self.travellers = 0
+        self.name = name
         self.distance = distance
         self.max_capacity = max_capacity
         self.full = False
         self.weight = weight
-        self.start_node = Node1
-        self.end_node = Node2
+        self.start_node = node1
+        self.end_node = node2
 
-        Node1.add_edge(self)
-        Node2.add_edge(self)
+        node1.add_edge(self)
+        node2.add_edge(self)
 
     def __repr__(self):
-        return self, "\n", "distance:", self.distance, "\n", "Max Capacity:", self.max_capacity, "\n", "Start Node:", self.start_node, "\n", "End Node:", self.end_node, "\n", "Weight", self.weight
+        """Return the name of the track."""
+        return self.name
 
     def update_full(self):
+        """Update the number of travellers on the track."""
         if self.travellers == self.max_capacity:
             self.full = True
         elif 0 <= self.travellers < self.max_capacity:
@@ -24,6 +32,7 @@ class Track():
             raise Exception("negative number of travellers - spooky")
 
     def add_if_can(self, agent):
+        """Add the agent to the track if possible."""
         self.update_full()
 
         if not self.full:
@@ -36,6 +45,7 @@ class Track():
             return
 
     def remove(self, agent):
+        """Remove and agent from the track."""
         self.update_full
         self.travellers -= 1
         agent.elemt = "Node"

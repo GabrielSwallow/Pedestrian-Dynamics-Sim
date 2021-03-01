@@ -1,3 +1,4 @@
+"""Works out time for simulation."""
 import os
 
 import matplotlib.pyplot as plt
@@ -10,6 +11,7 @@ directory = os.path.dirname(os.path.realpath(__file__))
 
 
 def track_time(agent, track):
+    """Calculate the time for an agent to cross the track."""
     time = track.distance / agent.speed
     return time
 
@@ -19,6 +21,7 @@ camera = Camera(fig)
 
 
 def plot_frame(tracks):
+    """Plot the frame."""
     x, y = [], []
     for track in tracks:
         # x.append(track.start_node.pos[0])
@@ -33,6 +36,7 @@ def plot_frame(tracks):
 
 
 def propagate(agents, tracks, dt=0.01):
+    """Calculate time for simulation."""
     # initial frame
     # for i in range(10):
     end_node_counter = 0
@@ -43,7 +47,7 @@ def propagate(agents, tracks, dt=0.01):
     if end_node_counter < 1:
         raise Exception("oops, no node has been defined as the end node")
     elif end_node_counter > 1:
-        raise Exception("oops, too many nodes have been defined as the end node")
+        raise Exception("oops, too many nodes have been defined as end nodes")
 
     t = 0
     count = 0
@@ -77,7 +81,7 @@ def propagate(agents, tracks, dt=0.01):
                         agent.timer += dt
                         continue
                 else:
-                    raise Exception("Oops! Agent is on track but current track wasn't set to a track")
+                    raise Exception("Agent current track has been set wrong")
             raise Exception("oops! agent status wasn't found", agent.element)
         if count % 5 == 0:
             plot_frame(tracks)
