@@ -15,11 +15,14 @@ camera = Camera(fig)
 def plot_frame(tracks):
     x,y = [],[]
     for track in tracks:
-        x.append(track.start_node.pos[0])
-        x.append(track.end_node.pos[0])
-        y.append(track.start_node.pos[1])
-        y.append(track.end_node.pos[1])
-    plt.plot(x,y, "-o", linewidth = track.travellers, color="b")
+        #x.append(track.start_node.pos[0])
+        #x.append(track.end_node.pos[0])
+        #y.append(track.start_node.pos[1])
+        #y.append(track.end_node.pos[1])
+        x = [track.start_node.pos[0], track.end_node.pos[0]]
+        y = [track.start_node.pos[0], track.end_node.pos[0]]   
+        plt.plot(x,y, "-o", linewidth = 5 + 5*track.travellers, 
+                 ms=5 + 10*track.travellers, color="b")
 
 
 def propagate(agents, tracks, dt=0.01):

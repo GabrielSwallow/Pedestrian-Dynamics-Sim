@@ -24,4 +24,4 @@ track2 = Track(distance=10, max_capacity=1, Node1=Node2, Node2=Node3, weight=2)
 agents = [agent1, agent2, agent8, agent7, agent5, agent6, agent4, agent3]
 tracks = [track1, track2]
 
-print(propagate(agents, tracks, dt=1))
+print(propagate(agents, tracks, dt=0.1))
