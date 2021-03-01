@@ -4,6 +4,16 @@ def track_time(agent, track):
 
 
 def propagate(agents, tracks, dt=0.01):
+    end_node_counter = 0
+    for track in tracks:
+        if track.end_node.end:
+            end_node_counter += 1
+
+    if end_node_counter < 1:
+        raise Exception("oops, no node has been defined as the end node")
+    elif end_node_counter > 1:
+        raise Exception("oops, too many nodes have been defined as the end node")
+
     t = 0
 
     leftover = agents
@@ -23,6 +33,7 @@ def propagate(agents, tracks, dt=0.01):
                 if agent.timer >= track_time(agent, agent.current_track):
                     # move agent to node
                     agent.element = "Node"
+                    agent.current_track.travellers -= 1
                     agent.timer = 0
                     agent.current_node = agent.current_track.end_node
                     if agent.current_node.end:
