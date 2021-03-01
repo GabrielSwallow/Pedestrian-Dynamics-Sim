@@ -1,6 +1,21 @@
+import matplotlib.pyplot as plt 
+from matplotlib.animation import PillowWriter
+from celluloid import Camera
+import os
+
+directory = os.path.dirname(os.path.realpath(__file__))
+
 def track_time(agent, track):
     time = track.distance / agent.speed
     return time
+
+fig, axs = plt.figure()
+camera = Camera(fig)
+
+def frame(tracks):
+    for track in tracks():
+        plt.plot()
+    plt.plot()
 
 
 def propagate(agents, tracks, dt=0.01):
@@ -33,6 +48,14 @@ def propagate(agents, tracks, dt=0.01):
                     continue
             raise Exception("oops! agent status wasn't found", agent.element)
         print(t)
+
+        if t%10=0:
+            #plot function
         t += dt
 
     return t
+
+anim = camera.animate()
+pillow = PillowWriter(fps=45)
+filename = directory + "\\Animation.gif" 
+anim.save(filename, writer=pillow)
