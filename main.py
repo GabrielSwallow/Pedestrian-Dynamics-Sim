@@ -2,12 +2,10 @@ from Agent import Agent
 from Node import Node
 from Propagate import propagate
 from Track import Track
-import plotparams
 
-Node1 = Node(max_capacity=5, is_end=False, name="Node1", pos = [0,5])
-Node2 = Node(max_capacity=5, is_end=False, name="Node2", pos = [5,5])
-Node3 = Node(max_capacity=5, is_end=True, name="Node3", pos = [10,5])
-
+Node1 = Node(max_capacity=5, is_end=False, name="Node1", pos=[0, 5])
+Node2 = Node(max_capacity=5, is_end=False, name="Node2", pos=[5, 5])
+Node3 = Node(max_capacity=5, is_end=True, name="Node3", pos=[10, 5])
 
 agent1 = Agent(speed=1, initial_node=Node1)
 agent2 = Agent(speed=1, initial_node=Node1)
