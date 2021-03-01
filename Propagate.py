@@ -9,17 +9,22 @@ def track_time(agent, track):
     time = track.distance / agent.speed
     return time
 
-fig, axs = plt.figure()
+fig= plt.figure()
 camera = Camera(fig)
 
-def frame(tracks):
-    for track in tracks():
-        plt.plot()
-    plt.plot()
+def plot_frame(tracks):
+    x,y = [],[]
+    for track in tracks:
+        x.append(track.start_node.pos[0])
+        x.append(track.end_node.pos[0])
+        y.append(track.start_node.pos[1])
+        y.append(track.end_node.pos[1])
+    plt.plot(x,y, "-o", linewidth = track.travellers, color="b")
 
 
 def propagate(agents, tracks, dt=0.01):
     t = 0
+    count = 0
 
     leftover = agents
 
@@ -28,6 +33,7 @@ def propagate(agents, tracks, dt=0.01):
         for agent in leftover:
             if agent.exit:
                 leftover.remove(agent)
+                continue
             elif agent.element == "Node":
                 # choose a track and try and join it
                 ideal_track = agent.current_node.ideal_track()
@@ -39,7 +45,7 @@ def propagate(agents, tracks, dt=0.01):
                     agent.element = "Node"
                     agent.timer = 0
                     agent.current_node = agent.current_track.end_node
-                    if agent.current_node.is_end:
+                    if agent.current_node.end:
                         agent.exit = True
                     agent.current_track = None
                     continue
@@ -47,15 +53,18 @@ def propagate(agents, tracks, dt=0.01):
                     agent.timer += dt
                     continue
             raise Exception("oops! agent status wasn't found", agent.element)
-        print(t)
+        #print(t)
+        #print(count)
 
-        if t%10=0:
-            #plot function
+        if count%5==0:
+            plot_frame(tracks)
+            camera.snap()
         t += dt
+        count += 1
+    
+    anim = camera.animate()
+    pillow = PillowWriter(fps=45)
+    filename = directory + "\\Animation.gif" 
+    anim.save(filename, writer=pillow)
 
     return t
-
-anim = camera.animate()
-pillow = PillowWriter(fps=45)
-filename = directory + "\\Animation.gif" 
-anim.save(filename, writer=pillow)
