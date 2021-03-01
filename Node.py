@@ -1,11 +1,13 @@
 class Node():
-
-    def __init__(self,name, max_capacity, is_end):
+    def __init__(self, name, max_capacity, is_end, pos):
         self.name = name
         self.max_capacity = max_capacity
         self.full = False
         self.edges_dict = dict()
         self.end = is_end
+        self.pos = pos
+        if len(self.pos) != 2:
+            raise Exception("pos must be a 2D position")
 
     def __repr__(self):
         return self.name
