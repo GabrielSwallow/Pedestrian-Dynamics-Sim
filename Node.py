@@ -1,6 +1,6 @@
 class Node():
-
-    def __init__(self, max_capacity, is_end, pos):
+    def __init__(self, name, max_capacity, is_end, pos):
+        self.name = name
         self.max_capacity = max_capacity
         self.full = False
         self.edges_dict = dict()
@@ -8,6 +8,9 @@ class Node():
         self.pos = pos
         if len(self.pos) != 2:
             raise Exception("pos must be a 2D position")
+
+    def __repr__(self):
+        return self.name
 
     def add_edge(self, track):
         self.edges_dict[track] = track.weight

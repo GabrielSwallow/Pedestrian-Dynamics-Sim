@@ -23,6 +23,16 @@ def plot_frame(tracks):
 
 
 def propagate(agents, tracks, dt=0.01):
+    end_node_counter = 0
+    for track in tracks:
+        if track.end_node.end:
+            end_node_counter += 1
+
+    if end_node_counter < 1:
+        raise Exception("oops, no node has been defined as the end node")
+    elif end_node_counter > 1:
+        raise Exception("oops, too many nodes have been defined as the end node")
+
     t = 0
     count = 0
 
@@ -34,15 +44,16 @@ def propagate(agents, tracks, dt=0.01):
             if agent.exit:
                 leftover.remove(agent)
                 continue
-            elif agent.element == "Node":
+            elif agent.element == 'Node':
                 # choose a track and try and join it
                 ideal_track = agent.current_node.ideal_track()
                 ideal_track.add_if_can(agent)
                 continue
-            elif agent.element == "Track":
+            elif agent.element == 'Track':
                 if agent.timer >= track_time(agent, agent.current_track):
                     # move agent to node
                     agent.element = "Node"
+                    agent.current_track.travellers -= 1
                     agent.timer = 0
                     agent.current_node = agent.current_track.end_node
                     if agent.current_node.end:
@@ -53,9 +64,6 @@ def propagate(agents, tracks, dt=0.01):
                     agent.timer += dt
                     continue
             raise Exception("oops! agent status wasn't found", agent.element)
-        #print(t)
-        #print(count)
-
         if count%5==0:
             plot_frame(tracks)
             camera.snap()

@@ -12,22 +12,25 @@ class Track():
         Node1.add_edge(self)
         Node2.add_edge(self)
 
+    def __repr__(self):
+        return self, "\n", "distance:", self.distance, "\n", "Max Capacity:", self.max_capacity, "\n", "Start Node:", self.start_node, "\n", "End Node:", self.end_node, "\n", "Weight", self.weight
+
     def update_full(self):
         if self.travellers == self.max_capacity:
-            self.full = False
-        elif 0 <= self.travellers < self.max_capacity:
             self.full = True
+        elif 0 <= self.travellers < self.max_capacity:
+            self.full = False
         else:
             raise Exception("negative number of travellers - spooky")
 
     def add_if_can(self, agent):
-        self.update_full
+        self.update_full()
 
         if not self.full:
             self.travellers += 1
             agent.element = "Track"
             agent.current_track = self
-            self.update_full
+            self.update_full()
             return
         else:
             return
