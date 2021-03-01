@@ -1,9 +1,8 @@
-from Agos
-
-ieport mnt import Agent
-fromcelluloid import Camera
+from Agent import Agent
+from Track import Track
+from Propagate import propagate
+from celluloid import Camera
 from Node import Node
-ate
 import plotparams
 
 
@@ -14,9 +13,7 @@ Nodex = Node(max_capacity=5, is_end=False, name="Nodex", pos=[0,0])
 
 
 
-Node1 = Node(max_capacity=5, is_end=False, name="Node1", pos=[0, 5])
-Node2  = Node( max_capacity=5, is_end=False, name="Node2", pos=[5, 5])
-Node3 = Node(max_capacity=5, is_end=True, name="Node3", pos=[10, 5])
+
  
 agent1 =  Agent(speed=1, initial_node=Node1)
 agent2 =  Agent(speed=1, initial_node=Node1)
@@ -27,9 +24,9 @@ agent6 = Agent(speed=1, initial_node=Node1)
 agent7 = Agent(speed=1, initial_node=Node1)
 agent8 = Agent(speed=1, initial_node=Node1)
 
+agent9 = Agent(speed=1, initial_node=Nodex)
 
 
-de
 track1 = Track(distance=10, max_capacity=5, Node1=Node1, Node2=Node2, weight=1)
 track2 = Track(distance=10, max_capacity=1, Node1=Node2, Node2=Node3, weight=2)
 track3 = Track(distance=10, max_capacity=3, Node1=Nodex, Node2=Node2, weight=1)

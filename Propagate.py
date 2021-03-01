@@ -33,7 +33,10 @@ def plot_frame(tracks):
 
 def propagate(agents, tracks, dt=0.01):
     #initial frame
-    #for i in range(10):
+    for i in range(30):
+        plot_frame(tracks)
+        camera.snap()
+
     end_node_counter = 0
     for track in tracks:
         if track.end_node.end:
@@ -78,9 +81,16 @@ def propagate(agents, tracks, dt=0.01):
         if count % 5 == 0:
             plot_frame(tracks)
             camera.snap()
+        print(t)
+        
+            
         t += dt
         count += 1
-
+    #final frame
+    for i in range(30):
+        plot_frame(tracks)
+        camera.snap()
+        
     anim = camera.animate()
     pillow = PillowWriter(fps=45)
     filename = directory + "\\Animation.gif"
