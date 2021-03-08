@@ -5,8 +5,8 @@ from Agent import Agent
 class Track():
     """Track class."""
 
-    def __init__(self, distance, max_capacity: int, node1: int, node2: int,
-                 weight, name):
+    def __init__(self, distance: int, max_capacity: int, node1, node2,
+                 weight: int, name: str):
         """Set the variables for the Track class."""
         self.travellers = 0
         self.name = name
@@ -39,7 +39,7 @@ class Track():
 
         if not self.full:
             self.travellers += 1
-            self.start_node.travellers-=1
+            self.start_node.travellers -= 1
             agent.element = "Track"
             agent.current_track = self
             self.update_full()

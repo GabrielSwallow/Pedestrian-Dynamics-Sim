@@ -1,10 +1,14 @@
 import PySimpleGUI as sg
 
+from Agent import Agent
+from Node import Node
+from Track import Track
 
-def initialGUI():
+
+def initial_gui():
     sg.theme("LightBlue")
     layout = [[sg.Text("Number of Nodes"),
-               sg.Slider(range=(1, 10), default_value=5,
+               sg.Slider(range=(2, 10), default_value=5,
                          orientation="horizontal", font=('Helvetica', 12))],
               [sg.Text("Number of Tracks"),
                sg.Slider(range=(1, 10), default_value=5,
@@ -24,9 +28,8 @@ def initialGUI():
         return values
 
 
-def nodeGUI(number_of_nodes):
+def node_gui(number_of_nodes):
     sg.theme("LightBlue")
-    number_of_nodes = int(number_of_nodes)
     layout = []
     for i in range(number_of_nodes):
         node_options_list = [
@@ -61,10 +64,8 @@ def nodeGUI(number_of_nodes):
         return values
 
 
-def trackGUI(number_of_nodes, number_of_tracks):
+def track_gui(number_of_nodes, number_of_tracks):
     sg.theme("LightBlue")
-    number_of_tracks = int(number_of_tracks)
-    number_of_nodes = int(number_of_nodes)
     layout = []
     for i in range(number_of_tracks):
         track_options_list = [
@@ -77,12 +78,16 @@ def trackGUI(number_of_nodes, number_of_tracks):
             [sg.Text("Connects node:"),
              sg.Spin(
                  [i for i in range(0, number_of_nodes)],
-                 initial_value=1),
+                 initial_value=0),
              sg.Text('to node:'),
              sg.Spin(
                  [i for i in range(0, number_of_nodes)],
-                 initial_value=1),
-             sg.Text('')], [sg.Text("Track Name:"), sg.InputText('')]]
+                 initial_value=0),
+             sg.Text('')],
+            [sg.Text("Weight"), sg.Slider(range=(1, 10), default_value=5,
+                                          orientation="horizontal",
+                                          font=('Helvetica', 12))],
+            [sg.Text("Track Name:"), sg.InputText('')]]
         layout.append([sg.Frame("Track " + str(i) + " Attributes:",
                                 track_options_list, font='Any 12',
                                 title_color='blue')])
@@ -100,10 +105,8 @@ def trackGUI(number_of_nodes, number_of_tracks):
         return values
 
 
-def agentGUI(number_of_nodes, number_of_agents):
+def agent_gui(number_of_nodes, number_of_agents):
     sg.theme("LightBlue")
-    number_of_agents = int(number_of_agents)
-    number_of_nodes = int(number_of_nodes)
     layout = []
     for i in range(number_of_agents):
         agent_options_list = [
@@ -111,10 +114,10 @@ def agentGUI(number_of_nodes, number_of_agents):
                                          orientation="horizontal",
                                          font=('Helvetica', 12))],
             [sg.Text("Initial Node"),
-             sg.Slider(range=(1, number_of_nodes), default_value=5,
+             sg.Slider(range=(0, number_of_nodes), default_value=5,
                        orientation="horizontal",
                        font=('Helvetica', 12))]]
-        layout.append([sg.Frame("Track " + str(i) + " Attributes:",
+        layout.append([sg.Frame("Agent " + str(i) + " Attributes:",
                                 agent_options_list, font='Any 12',
                                 title_color='blue')])
 
@@ -132,13 +135,42 @@ def agentGUI(number_of_nodes, number_of_agents):
 
 
 def guis():
-    values = initialGUI()
-    number_of_nodes = values[0]
-    number_of_tracks = values[1]
-    number_of_agents = values[2]
+    values = initial_gui()
+    number_of_nodes = int(values[0])
+    number_of_tracks = int(values[1])
+    number_of_agents = int(values[2])
 
-    nodes = nodeGUI(number_of_nodes)
-    tracks = trackGUI(number_of_nodes, number_of_tracks)
-    agents = agentGUI(number_of_nodes, number_of_agents)
+    nodes = node_gui(number_of_nodes)
+    tracks = track_gui(number_of_nodes, number_of_tracks)
+    agents = agent_gui(number_of_nodes, number_of_agents)
 
-    return nodes, tracks, agents
+    node_dict = dict()
+    for i in range(number_of_nodes):
+        node = Node(max_capacity=int(nodes[6 * i]), is_end=nodes[6 * i + 2],
+                    name=nodes[6 * i + 3],
+                    pos=[nodes[6 * i + 4], nodes[6 * i + 5]])
+        node_dict["Node" + str(i)] = node
+
+    tracks_list = []
+    number_of_track_attributes = 6
+    for i in range(number_of_tracks):
+        track = Track(distance=int(tracks[number_of_track_attributes * i]),
+                      max_capacity=int(
+                          tracks[number_of_track_attributes * i + 1]),
+                      node1=node_dict["Node" + str(int(
+                          tracks[number_of_track_attributes * i + 2]))],
+                      node2=node_dict["Node" + str(int(
+                          tracks[number_of_track_attributes * i + 3]))],
+                      weight=int(tracks[number_of_track_attributes * i + 4]),
+                      name=tracks[number_of_track_attributes * i + 5])
+        tracks_list.append(track)
+
+    agent_list = []
+    for i in range(number_of_agents):
+        agent = Agent(speed=int(agents[2 * i]),
+                      initial_node=node_dict[
+                          "Node" + str(int(agents[2 * i + 1]))])
+        agent_list.append(agent)
+    return tracks_list, agent_list
+
+
