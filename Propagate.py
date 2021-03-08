@@ -38,8 +38,8 @@ def plot_frame(tracks, time):
         plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,color=colours[i])
         patch = mpatches.Patch(color=colours[i], label=track.travellers)
 
-        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.travellers, color="b")
-        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.travellers, color="b")
+        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers, color="b")
+        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers, color="b")
         patches.append(patch)
         i+=1
     patches.append(mpatches.Patch(color="white", label=("time="+str(int(time)))))
@@ -94,6 +94,7 @@ def propagate(agents, tracks, dt=0.01):
                     if agent.timer >= track_time(agent, agent.current_track):
                         # move agent to node
                         agent.element = "Node"
+                        agent.current_track.end_node.travellers+=1
                         agent.current_track.travellers -= 1
                         agent.timer = 0
                         agent.current_node = agent.current_track.end_node

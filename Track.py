@@ -39,6 +39,7 @@ class Track():
 
         if not self.full:
             self.travellers += 1
+            self.start_node.travellers-=1
             agent.element = "Track"
             agent.current_track = self
             self.update_full()

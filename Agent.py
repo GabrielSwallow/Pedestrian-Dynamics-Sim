@@ -12,6 +12,7 @@ class Agent:
         self.exit = False
         self.element = "Node"
         self.timer = 0
+        initial_node.travellers += 1
 
     def __repr__(self):
         """Return the element of the agent."""
