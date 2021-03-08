@@ -1,12 +1,14 @@
 """Works out time for simulation."""
 import os
 
+import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from celluloid import Camera
 from matplotlib.animation import PillowWriter
-import matplotlib.patches as mpatches
-from Track import Track
+
 from Agent import Agent
+from Track import Track
+from Node import Node
 
 directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -25,38 +27,40 @@ def plot_frame(tracks, time):
     """Plot the frame."""
     x, y = [], []
     colours = ['r', 'g', 'b', 'orange', 'black']
-    i=0
+    i = 0
     patches = []
-    #travellers = []
+    # travellers = []
     for track in tracks:
         # x.append(track.start_node.pos[0])
         # x.append(track.end_node.pos[0])
         # y.append(track.start_node.pos[1])
         # y.append(track.end_node.pos[1])
+        assert isinstance(track.end_node, Node)
         x = [track.start_node.pos[0], track.end_node.pos[0]]
         y = [track.start_node.pos[1], track.end_node.pos[1]]
-        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,color=colours[i])
+        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,
+                 color=colours[i])
         patch = mpatches.Patch(color=colours[i], label=track.travellers)
 
-        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers, color="b")
-        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers, color="b")
+        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers,
+                 color="b")
+        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers,
+                 color="b")
         patches.append(patch)
-        i+=1
-    patches.append(mpatches.Patch(color="white", label=("time="+str(int(time)))))
+        i += 1
+    patches.append(
+        mpatches.Patch(color="white", label=("time=" + str(int(time)))))
     plt.legend(handles=patches)
-    
-    #legend = plt.legend(handles=tr)
-    #ax = plt.gca().add_artist(legend)
-    #plt.legend(handles=)
-    
-    #t = plt.figure()
-    #plt.legend(handles=[t])
-    #plots.append(t)
-    #travellers.append("time")
-    #plt.legend(plots, travellers)
 
-            
-        
+    # legend = plt.legend(handles=tr)
+    # ax = plt.gca().add_artist(legend)
+    # plt.legend(handles=)
+
+    # t = plt.figure()
+    # plt.legend(handles=[t])
+    # plots.append(t)
+    # travellers.append("time")
+    # plt.legend(plots, travellers)
 
 
 def propagate(agents, tracks, dt=0.01):
@@ -94,7 +98,7 @@ def propagate(agents, tracks, dt=0.01):
                     if agent.timer >= track_time(agent, agent.current_track):
                         # move agent to node
                         agent.element = "Node"
-                        agent.current_track.end_node.travellers+=1
+                        agent.current_track.end_node.travellers += 1
                         agent.current_track.travellers -= 1
                         agent.timer = 0
                         agent.current_node = agent.current_track.end_node

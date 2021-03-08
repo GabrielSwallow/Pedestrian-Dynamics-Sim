@@ -114,7 +114,7 @@ def agent_gui(number_of_nodes, number_of_agents):
                                          orientation="horizontal",
                                          font=('Helvetica', 12))],
             [sg.Text("Initial Node"),
-             sg.Slider(range=(0, number_of_nodes), default_value=5,
+             sg.Slider(range=(0, number_of_nodes - 1), default_value=0,
                        orientation="horizontal",
                        font=('Helvetica', 12))]]
         layout.append([sg.Frame("Agent " + str(i) + " Attributes:",
@@ -172,5 +172,3 @@ def guis():
                           "Node" + str(int(agents[2 * i + 1]))])
         agent_list.append(agent)
     return tracks_list, agent_list
-
-
