@@ -1,10 +1,12 @@
 """Define the Track class."""
+from Agent import Agent
 
 
 class Track():
     """Track class."""
 
-    def __init__(self, distance, max_capacity, node1, node2, weight, name):
+    def __init__(self, distance, max_capacity: int, node1: int, node2: int,
+                 weight, name):
         """Set the variables for the Track class."""
         self.travellers = 0
         self.name = name
@@ -31,7 +33,7 @@ class Track():
         else:
             raise Exception("negative number of travellers - spooky")
 
-    def add_if_can(self, agent):
+    def add_if_can(self, agent: Agent):
         """Add the agent to the track if possible."""
         self.update_full()
 
@@ -46,7 +48,7 @@ class Track():
 
     def remove(self, agent):
         """Remove and agent from the track."""
-        self.update_full
+        self.update_full()
         self.travellers -= 1
         agent.elemt = "Node"
-        self.update_full
+        self.update_full()

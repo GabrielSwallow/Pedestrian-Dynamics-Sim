@@ -6,11 +6,12 @@ from celluloid import Camera
 from matplotlib.animation import PillowWriter
 
 from Track import Track
+from Agent import Agent
 
 directory = os.path.dirname(os.path.realpath(__file__))
 
 
-def track_time(agent, track):
+def track_time(agent: Agent, track: Track):
     """Calculate the time for an agent to cross the track."""
     time = track.distance / agent.speed
     return time

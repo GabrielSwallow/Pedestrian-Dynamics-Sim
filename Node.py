@@ -1,10 +1,10 @@
 """Defines the node class."""
-
+from Track import Track
 
 class Node():
     """Node class."""
 
-    def __init__(self, name, max_capacity, is_end, pos):
+    def __init__(self, name: str, max_capacity: int, is_end: bool, pos):
         """Set variables for Node calss."""
         self.name = name
         self.max_capacity = max_capacity
@@ -19,7 +19,7 @@ class Node():
         """Return the name of the node."""
         return self.name
 
-    def add_edge(self, track):
+    def add_edge(self, track: Track):
         """Add edge to the node."""
         self.edges_dict[track] = track.weight
 
