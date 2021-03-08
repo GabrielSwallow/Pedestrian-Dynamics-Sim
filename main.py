@@ -3,6 +3,7 @@ from Agent import Agent
 from Node import Node
 from Propagate import propagate
 from Track import Track
+import plotparams
 
 Node_x = Node(max_capacity=5, is_end=False, name="Node_x", pos=[0, 0])
 Node1 = Node(max_capacity=5, is_end=False, name="Node1", pos=[0, 5])

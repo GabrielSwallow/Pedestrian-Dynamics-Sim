@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from celluloid import Camera
 from matplotlib.animation import PillowWriter
-
+import matplotlib.patches as mpatches
 from Track import Track
 from Agent import Agent
 
@@ -21,9 +21,13 @@ fig = plt.figure()
 camera = Camera(fig)
 
 
-def plot_frame(tracks):
+def plot_frame(tracks, time):
     """Plot the frame."""
     x, y = [], []
+    colours = ['r', 'g', 'b', 'orange', 'black']
+    i=0
+    patches = []
+    #travellers = []
     for track in tracks:
         # x.append(track.start_node.pos[0])
         # x.append(track.end_node.pos[0])
@@ -31,9 +35,28 @@ def plot_frame(tracks):
         # y.append(track.end_node.pos[1])
         x = [track.start_node.pos[0], track.end_node.pos[0]]
         y = [track.start_node.pos[1], track.end_node.pos[1]]
-        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers, color="b")
+        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,color=colours[i])
+        patch = mpatches.Patch(color=colours[i], label=track.travellers)
+
         plt.plot(x[0], y[0], "o", ms=5 + 10 * track.travellers, color="b")
         plt.plot(x[1], y[1], "o", ms=5 + 10 * track.travellers, color="b")
+        patches.append(patch)
+        i+=1
+    patches.append(mpatches.Patch(color="white", label=("time="+str(int(time)))))
+    plt.legend(handles=patches)
+    
+    #legend = plt.legend(handles=tr)
+    #ax = plt.gca().add_artist(legend)
+    #plt.legend(handles=)
+    
+    #t = plt.figure()
+    #plt.legend(handles=[t])
+    #plots.append(t)
+    #travellers.append("time")
+    #plt.legend(plots, travellers)
+
+            
+        
 
 
 def propagate(agents, tracks, dt=0.01):
@@ -85,7 +108,7 @@ def propagate(agents, tracks, dt=0.01):
                     raise Exception("Agent current track has been set wrong")
             raise Exception("oops! agent status wasn't found", agent.element)
         if count % 5 == 0:
-            plot_frame(tracks)
+            plot_frame(tracks, t)
             camera.snap()
         t += dt
         count += 1
