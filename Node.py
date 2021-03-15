@@ -4,7 +4,7 @@ from Track import Track
 class Node():
     """Node class."""
 
-    def __init__(self, name: str, max_capacity: int, is_end: bool, pos):
+    def __init__(self, name: str, max_capacity: int, pos, is_end=False):
         """Set variables for Node calss."""
         self.name = name
         self.max_capacity = max_capacity

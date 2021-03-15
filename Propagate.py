@@ -37,7 +37,7 @@ def check_end_node(tracks):
 
 def plot_frame(tracks, time):
     """Plot the frame."""
-    colours = ['r', 'g', 'b', 'orange', 'black']
+    colours = ['r', 'g', 'b', 'orange', 'black', 'cyan', 'yellow', 'pink']
     i = 0
     patches = []
     # travellers = []
@@ -51,11 +51,11 @@ def plot_frame(tracks, time):
         y = [track.start_node.pos[1], track.end_node.pos[1]]
         plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,
                  color=colours[i])
-        patch = m_patches.Patch(color=colours[i], label=track.travellers)
+        patch = m_patches.Patch(color=colours[i], label=track.name+": "+str(track.travellers))
 
-        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers,
+        plt.plot(x[0], y[0], "o", ms=5 + 0.1 * track.start_node.travellers,
                  color="b")
-        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers,
+        plt.plot(x[1], y[1], "o", ms=5 + 0.1 * track.end_node.travellers,
                  color="b")
         patches.append(patch)
         i += 1
@@ -120,7 +120,7 @@ def propagate(agents, tracks, dt=0.01, animate=False):
             camera.snap()
         t += dt
         count += 1
-        print(leftover)
+    print("Animation started")
     if animate:
         anim = camera.animate()
         pillow = PillowWriter(fps=45)

@@ -5,12 +5,12 @@ from Agent import Agent
 class Track():
     """Track class."""
 
-    def __init__(self, distance: int, max_capacity: int, node1, node2,
+    def __init__(self, max_capacity: int, node1, node2,
                  weight: int, name: str):
         """Set the variables for the Track class."""
         self.travellers = 0
         self.name = name
-        self.distance = distance
+        self.distance = ((node2.pos[1]-node1.pos[1])**2+(node2.pos[0]-node1.pos[0])**2)**0.5
         self.max_capacity = max_capacity
         self.full = False
         self.weight = weight
