@@ -26,4 +26,4 @@ track3 = Track(10, 3, node1=Node_x, node2=Node2, weight=1, name="track3")
 agents = [agent1, agent2, agent8, agent7, agent5, agent6, agent4, agent3]
 tracks = [track1, track2, track3]
 
-print(propagate(agents, tracks, dt=0.1))
+print(propagate(agents, tracks, dt=0.1, animate=False))

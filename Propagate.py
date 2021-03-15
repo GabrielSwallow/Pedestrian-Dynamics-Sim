@@ -59,7 +59,7 @@ def plot_frame(tracks, time):
         
 
 
-def propagate(agents, tracks, dt=0.01):
+def propagate(agents, tracks, dt=0.01, animate=True):
     """Calculate time for simulation."""
     # initial frame
     # for i in range(10):
@@ -113,10 +113,11 @@ def propagate(agents, tracks, dt=0.01):
             camera.snap()
         t += dt
         count += 1
-
-    anim = camera.animate()
-    pillow = PillowWriter(fps=45)
-    filename = directory + "\\Animation.gif"
-    anim.save(filename, writer=pillow)
+    
+    if animate == True:
+        anim = camera.animate()
+        pillow = PillowWriter(fps=45)
+        filename = directory + "\\Animation.gif"
+        anim.save(filename, writer=pillow)
 
     return t
