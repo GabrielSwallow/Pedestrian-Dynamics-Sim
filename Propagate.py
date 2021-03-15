@@ -1,7 +1,7 @@
 """Works out time for simulation."""
 import os
 
-import matplotlib.patches as mpatches
+import matplotlib.patches as m_patches
 import matplotlib.pyplot as plt
 from celluloid import Camera
 from matplotlib.animation import PillowWriter
@@ -22,10 +22,20 @@ def track_time(agent: Agent, track: Track):
 fig = plt.figure()
 camera = Camera(fig)
 
+def check_end_node(tracks):
+    end_node_counter = 0
+    for track in tracks:
+        if track.end_node.end:
+            end_node_counter += 1
+
+    if end_node_counter < 1:
+        raise Exception("oops, no node has been defined as the end node")
+    elif end_node_counter > 1:
+        raise Exception("oops, too many nodes have been defined as end nodes")
+
 
 def plot_frame(tracks, time):
     """Plot the frame."""
-    x, y = [], []
     colours = ['r', 'g', 'b', 'orange', 'black']
     i = 0
     patches = []
@@ -40,7 +50,7 @@ def plot_frame(tracks, time):
         y = [track.start_node.pos[1], track.end_node.pos[1]]
         plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,
                  color=colours[i])
-        patch = mpatches.Patch(color=colours[i], label=track.travellers)
+        patch = m_patches.Patch(color=colours[i], label=track.travellers)
 
         plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers,
                  color="b")
@@ -49,7 +59,7 @@ def plot_frame(tracks, time):
         patches.append(patch)
         i += 1
     patches.append(
-        mpatches.Patch(color="white", label=("time=" + str(int(time)))))
+        m_patches.Patch(color="white", label=("time=" + str(int(time)))))
     plt.legend(handles=patches)
 
     # legend = plt.legend(handles=tr)
@@ -66,16 +76,8 @@ def plot_frame(tracks, time):
 def propagate(agents, tracks, dt=0.01):
     """Calculate time for simulation."""
     # initial frame
-    # for i in range(10):
-    end_node_counter = 0
-    for track in tracks:
-        if track.end_node.end:
-            end_node_counter += 1
 
-    if end_node_counter < 1:
-        raise Exception("oops, no node has been defined as the end node")
-    elif end_node_counter > 1:
-        raise Exception("oops, too many nodes have been defined as end nodes")
+    check_end_node(tracks)
 
     t = 0
     count = 0
@@ -117,6 +119,7 @@ def propagate(agents, tracks, dt=0.01):
             camera.snap()
         t += dt
         count += 1
+        print(leftover)
 
     anim = camera.animate()
     pillow = PillowWriter(fps=45)

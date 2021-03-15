@@ -2,6 +2,6 @@
 from Propagate import propagate
 from gui import *
 
-tracks, agents = guis()
+agents, tracks = guis()
 
 print(propagate(agents, tracks, dt=0.1))
