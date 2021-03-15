@@ -1,4 +1,4 @@
-import PySimpleGUI as sg
+import PySimpleGUI as Sg
 
 from Agent import Agent
 from Node import Node
@@ -6,129 +6,129 @@ from Track import Track
 
 
 def initial_gui():
-    sg.theme("LightBlue")
-    layout = [[sg.Text("Number of Nodes"),
-               sg.Slider(range=(2, 10), default_value=5,
+    Sg.theme("LightBlue")
+    layout = [[Sg.Text("Number of Nodes"),
+               Sg.Slider(range=(2, 10), default_value=5,
                          orientation="horizontal", font=('Helvetica', 12))],
-              [sg.Text("Number of Tracks"),
-               sg.Slider(range=(1, 10), default_value=5,
+              [Sg.Text("Number of Tracks"),
+               Sg.Slider(range=(1, 10), default_value=5,
                          orientation="horizontal", font=('Helvetica', 12))],
-              [sg.Text("Number of Agents"),
-               sg.Slider(range=(1, 10), default_value=5,
+              [Sg.Text("Number of Agents"),
+               Sg.Slider(range=(1, 10), default_value=5,
                          orientation="horizontal", font=('Helvetica', 12))],
-              [sg.Button('Ok'), sg.Button('Cancel')]]
+              [Sg.Button('Ok'), Sg.Button('Cancel')]]
 
-    window = sg.Window('Best Pedestrian Dynamics Model Simulator Ever', layout)
+    window = Sg.Window('Best Pedestrian Dynamics Model Simulator Ever', layout)
 
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':  # if user closes window or clicks cancel
+        if event == Sg.WIN_CLOSED or event == 'Cancel':
             break
         window.close()
         return values
 
 
 def node_gui(number_of_nodes):
-    sg.theme("LightBlue")
+    Sg.theme("LightBlue")
     layout = []
     for i in range(number_of_nodes):
         node_options_list = [
-            [sg.Text("Max Capacity"), sg.Slider(range=(1, 10), default_value=5,
+            [Sg.Text("Max Capacity"), Sg.Slider(range=(1, 10), default_value=5,
                                                 orientation="horizontal",
                                                 font=('Helvetica', 12))],
-            [sg.Text("Is this the final node")],
-            [sg.Radio('No', "Node" + str(i), default=True),
-             sg.Radio('Yes', "Node" + str(i))],
-            [sg.Text("Node Name:"), sg.InputText('')],
-            [sg.Text("Node Position"),
-             sg.Spin([i for i in range(1, 11)],
+            [Sg.Text("Is this the final node")],
+            [Sg.Radio('No', "Node" + str(i), default=True),
+             Sg.Radio('Yes', "Node" + str(i))],
+            [Sg.Text("Node Name:"), Sg.InputText('')],
+            [Sg.Text("Node Position"),
+             Sg.Spin([i for i in range(1, 11)],
                      initial_value=1),
-             sg.Text('X position'),
-             sg.Spin([i for i in range(1, 11)],
+             Sg.Text('X position'),
+             Sg.Spin([i for i in range(1, 11)],
                      initial_value=1),
-             sg.Text('Y Position')]]
-        layout.append([sg.Frame("Node " + str(i) + " Attributes:",
+             Sg.Text('Y Position')]]
+        layout.append([Sg.Frame("Node " + str(i) + " Attributes:",
                                 node_options_list, font='Any 12',
                                 title_color='blue')])
 
-    layout.append([sg.Button('Ok'), sg.Button('Cancel')])
+    layout.append([Sg.Button('Ok'), Sg.Button('Cancel')])
 
-    window = sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
+    window = Sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
                        layout)
 
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':  # if user closes window or clicks cancel
+        if event == Sg.WIN_CLOSED or event == 'Cancel':
             break
         window.close()
         return values
 
 
 def track_gui(number_of_nodes, number_of_tracks):
-    sg.theme("LightBlue")
+    Sg.theme("LightBlue")
     layout = []
     for i in range(number_of_tracks):
         track_options_list = [
-            [sg.Text("Distance"), sg.Slider(range=(1, 10), default_value=5,
+            [Sg.Text("Distance"), Sg.Slider(range=(1, 10), default_value=5,
                                             orientation="horizontal",
                                             font=('Helvetica', 12))],
-            [sg.Text("Max Capacity"), sg.Slider(range=(1, 10), default_value=5,
+            [Sg.Text("Max Capacity"), Sg.Slider(range=(1, 10), default_value=5,
                                                 orientation="horizontal",
                                                 font=('Helvetica', 12))],
-            [sg.Text("Connects node:"),
-             sg.Spin(
+            [Sg.Text("Connects node:"),
+             Sg.Spin(
                  [i for i in range(0, number_of_nodes)],
                  initial_value=0),
-             sg.Text('to node:'),
-             sg.Spin(
+             Sg.Text('to node:'),
+             Sg.Spin(
                  [i for i in range(0, number_of_nodes)],
                  initial_value=0),
-             sg.Text('')],
-            [sg.Text("Weight"), sg.Slider(range=(1, 10), default_value=5,
+             Sg.Text('')],
+            [Sg.Text("Weight"), Sg.Slider(range=(1, 10), default_value=5,
                                           orientation="horizontal",
                                           font=('Helvetica', 12))],
-            [sg.Text("Track Name:"), sg.InputText('')]]
-        layout.append([sg.Frame("Track " + str(i) + " Attributes:",
+            [Sg.Text("Track Name:"), Sg.InputText('')]]
+        layout.append([Sg.Frame("Track " + str(i) + " Attributes:",
                                 track_options_list, font='Any 12',
                                 title_color='blue')])
 
-    layout.append([sg.Button('Ok'), sg.Button('Cancel')])
+    layout.append([Sg.Button('Ok'), Sg.Button('Cancel')])
 
-    window = sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
+    window = Sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
                        layout)
 
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':  # if user closes window or clicks cancel
+        if event == Sg.WIN_CLOSED or event == 'Cancel':
             break
         window.close()
         return values
 
 
 def agent_gui(number_of_nodes, number_of_agents):
-    sg.theme("LightBlue")
+    Sg.theme("LightBlue")
     layout = []
     for i in range(number_of_agents):
         agent_options_list = [
-            [sg.Text("speed"), sg.Slider(range=(1, 10), default_value=5,
+            [Sg.Text("speed"), Sg.Slider(range=(1, 10), default_value=5,
                                          orientation="horizontal",
                                          font=('Helvetica', 12))],
-            [sg.Text("Initial Node"),
-             sg.Slider(range=(0, number_of_nodes), default_value=5,
+            [Sg.Text("Initial Node"),
+             Sg.Slider(range=(0, number_of_nodes - 1), default_value=0,
                        orientation="horizontal",
                        font=('Helvetica', 12))]]
-        layout.append([sg.Frame("Agent " + str(i) + " Attributes:",
+        layout.append([Sg.Frame("Agent " + str(i) + " Attributes:",
                                 agent_options_list, font='Any 12',
                                 title_color='blue')])
 
-    layout.append([sg.Button('Ok'), sg.Button('Cancel')])
+    layout.append([Sg.Button('Ok'), Sg.Button('Cancel')])
 
-    window = sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
+    window = Sg.Window('Best Pedestrian Dynamics Model Simulator Ever',
                        layout)
 
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':  # if user closes window or clicks cancel
+        if event == Sg.WIN_CLOSED or event == 'Cancel':
             break
         window.close()
         return values
@@ -171,6 +171,4 @@ def guis():
                       initial_node=node_dict[
                           "Node" + str(int(agents[2 * i + 1]))])
         agent_list.append(agent)
-    return tracks_list, agent_list
-
-
+    return agent_list, tracks_list

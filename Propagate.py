@@ -1,12 +1,14 @@
 """Works out time for simulation."""
 import os
 
+import matplotlib.patches as m_patches
 import matplotlib.pyplot as plt
 from celluloid import Camera
 from matplotlib.animation import PillowWriter
-import matplotlib.patches as mpatches
-from Track import Track
+
 from Agent import Agent
+from Track import Track
+from Node import Node
 
 directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -20,49 +22,7 @@ def track_time(agent: Agent, track: Track):
 fig = plt.figure()
 camera = Camera(fig)
 
-
-def plot_frame(tracks, time):
-    """Plot the frame."""
-    x, y = [], []
-    colours = ['r', 'g', 'b', 'orange', 'black']
-    i=0
-    patches = []
-    #travellers = []
-    for track in tracks:
-        # x.append(track.start_node.pos[0])
-        # x.append(track.end_node.pos[0])
-        # y.append(track.start_node.pos[1])
-        # y.append(track.end_node.pos[1])
-        x = [track.start_node.pos[0], track.end_node.pos[0]]
-        y = [track.start_node.pos[1], track.end_node.pos[1]]
-        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,color=colours[i])
-        patch = mpatches.Patch(color=colours[i], label=track.travellers)
-
-        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers, color="b")
-        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers, color="b")
-        patches.append(patch)
-        i+=1
-    patches.append(mpatches.Patch(color="white", label=("time="+str(int(time)))))
-    plt.legend(handles=patches)
-    
-    #legend = plt.legend(handles=tr)
-    #ax = plt.gca().add_artist(legend)
-    #plt.legend(handles=)
-    
-    #t = plt.figure()
-    #plt.legend(handles=[t])
-    #plots.append(t)
-    #travellers.append("time")
-    #plt.legend(plots, travellers)
-
-            
-        
-
-
-def propagate(agents, tracks, dt=0.01, animate=True):
-    """Calculate time for simulation."""
-    # initial frame
-    # for i in range(10):
+def check_end_node(tracks):
     end_node_counter = 0
     for track in tracks:
         if track.end_node.end:
@@ -72,6 +32,52 @@ def propagate(agents, tracks, dt=0.01, animate=True):
         raise Exception("oops, no node has been defined as the end node")
     elif end_node_counter > 1:
         raise Exception("oops, too many nodes have been defined as end nodes")
+
+
+def plot_frame(tracks, time):
+    """Plot the frame."""
+    colours = ['r', 'g', 'b', 'orange', 'black']
+    i = 0
+    patches = []
+    # travellers = []
+    for track in tracks:
+        # x.append(track.start_node.pos[0])
+        # x.append(track.end_node.pos[0])
+        # y.append(track.start_node.pos[1])
+        # y.append(track.end_node.pos[1])
+        assert isinstance(track.end_node, Node)
+        x = [track.start_node.pos[0], track.end_node.pos[0]]
+        y = [track.start_node.pos[1], track.end_node.pos[1]]
+        plt.plot(x, y, "-o", linewidth=5 + 5 * track.travellers,
+                 color=colours[i])
+        patch = m_patches.Patch(color=colours[i], label=track.travellers)
+
+        plt.plot(x[0], y[0], "o", ms=5 + 10 * track.start_node.travellers,
+                 color="b")
+        plt.plot(x[1], y[1], "o", ms=5 + 10 * track.end_node.travellers,
+                 color="b")
+        patches.append(patch)
+        i += 1
+    patches.append(
+        m_patches.Patch(color="white", label=("time=" + str(int(time)))))
+    plt.legend(handles=patches)
+
+    # legend = plt.legend(handles=tr)
+    # ax = plt.gca().add_artist(legend)
+    # plt.legend(handles=)
+
+    # t = plt.figure()
+    # plt.legend(handles=[t])
+    # plots.append(t)
+    # travellers.append("time")
+    # plt.legend(plots, travellers)
+
+
+def propagate(agents, tracks, dt=0.01):
+    """Calculate time for simulation."""
+    # initial frame
+
+    check_end_node(tracks)
 
     t = 0
     count = 0
@@ -94,7 +100,7 @@ def propagate(agents, tracks, dt=0.01, animate=True):
                     if agent.timer >= track_time(agent, agent.current_track):
                         # move agent to node
                         agent.element = "Node"
-                        agent.current_track.end_node.travellers+=1
+                        agent.current_track.end_node.travellers += 1
                         agent.current_track.travellers -= 1
                         agent.timer = 0
                         agent.current_node = agent.current_track.end_node
@@ -114,11 +120,10 @@ def propagate(agents, tracks, dt=0.01, animate=True):
         t += dt
         count += 1
         print(leftover)
-    
-    if animate:
-        anim = camera.animate()
-        pillow = PillowWriter(fps=45)
-        filename = directory + "\\Animation.gif"
-        anim.save(filename, writer=pillow)
+
+    anim = camera.animate()
+    pillow = PillowWriter(fps=45)
+    filename = directory + "\\Animation.gif"
+    anim.save(filename, writer=pillow)
 
     return t
