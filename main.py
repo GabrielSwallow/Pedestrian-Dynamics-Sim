@@ -4,4 +4,4 @@ from gui import *
 
 agents, tracks = guis()
 
-print(propagate(agents, tracks, dt=0.1, animate=False))
+print(propagate(agents, tracks, dt=0.1, animate=True))

@@ -7,8 +7,8 @@ from celluloid import Camera
 from matplotlib.animation import PillowWriter
 
 from Agent import Agent
-from Track import Track
 from Node import Node
+from Track import Track
 
 directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -21,6 +21,7 @@ def track_time(agent: Agent, track: Track):
 
 fig = plt.figure()
 camera = Camera(fig)
+
 
 def check_end_node(tracks):
     end_node_counter = 0
@@ -73,7 +74,7 @@ def plot_frame(tracks, time):
     # plt.legend(plots, travellers)
 
 
-def propagate(agents, tracks, dt=0.01):
+def propagate(agents, tracks, dt=0.01, animate=False):
     """Calculate time for simulation."""
     # initial frame
 
@@ -120,10 +121,10 @@ def propagate(agents, tracks, dt=0.01):
         t += dt
         count += 1
         print(leftover)
-
-    anim = camera.animate()
-    pillow = PillowWriter(fps=45)
-    filename = directory + "\\Animation.gif"
-    anim.save(filename, writer=pillow)
+    if animate:
+        anim = camera.animate()
+        pillow = PillowWriter(fps=45)
+        filename = directory + "\\Animation.gif"
+        anim.save(filename, writer=pillow)
 
     return t
