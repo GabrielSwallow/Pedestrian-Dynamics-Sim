@@ -113,8 +113,9 @@ def propagate(agents, tracks, dt=0.01, animate=True):
             camera.snap()
         t += dt
         count += 1
+        print(leftover)
     
-    if animate == True:
+    if animate:
         anim = camera.animate()
         pillow = PillowWriter(fps=45)
         filename = directory + "\\Animation.gif"
